@@ -1,10 +1,16 @@
+import { userSelectors } from '@selectors';
+import { useDispatch, useSelector } from '@store';
+import { fetchUserOrders } from '@thunks';
 import { ProfileOrdersUI } from '@ui-pages';
-import { TOrder } from '@utils-types';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 export const ProfileOrders: FC = () => {
-  /** TODO: взять переменную из стора */
-  const orders: TOrder[] = [];
+  const orders = useSelector(userSelectors.selectOrders);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUserOrders());
+  }, []);
 
   return <ProfileOrdersUI orders={orders} />;
 };

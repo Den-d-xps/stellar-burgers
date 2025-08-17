@@ -22,10 +22,15 @@
       "@components": ["src/components"],
       "@ui": ["src/components/ui"],
       "@ui-pages": ["src/components/ui/pages"],
+      "@utils-cookie": ["src/utils/cookie"],
       "@utils-types": ["src/utils/types"],
       "@api": ["src/utils/burger-api.ts"],
       "@slices": ["src/services/slices"],
-      "@selectors": ["src/services/selectors"]
+      "@selectors": ["src/services/selectors"],
+      "@actions": ["src/services/actions"],
+      "@thunks": ["src/services/thunks"],
+      "@store": ["src/services/store"],
+      "@routes": ["src/routes"]
     }
   },
   "include": ["src"]
