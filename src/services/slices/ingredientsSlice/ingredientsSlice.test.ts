@@ -1,16 +1,10 @@
-import { ingredientsSlice } from './ingredientsSlice';
+import { ingredientsSlice, initialState } from './ingredientsSlice';
 import { fetchIngredients } from '@thunks';
 import { TIngredient } from '@utils-types';
 
 describe('[ingredientsSlice] тесты редьюсеров!', () => {
   const reducer = ingredientsSlice.reducer;
   const { setIngredients } = ingredientsSlice.actions;
-
-  const initialState = {
-  items: [],
-  loading: false,
-  error: false
-};
 
   const testIngredient: TIngredient = {
     _id: "3",

@@ -1,4 +1,4 @@
-import { ordersSlice } from './ordersSlice';
+import { ordersSlice, initialState } from './ordersSlice';
 import { fetchOrders, addNewOrder } from '@thunks';
 import { TOrder, TOrdersData } from '@utils-types';
 
@@ -20,18 +20,6 @@ describe('[ordersSlice] тесты редьюсеров!', () => {
     orders: [testOrder],
     total: 10,
     totalToday: 5
-  };
-
-  const initialState = {
-    orderData: {
-      orders: [],
-      total: 0,
-      totalToday: 0
-    },
-    newOrder: null,
-    newOrderLoading: false,
-    loading: false,
-    error: false
   };
 
   it('Должен сбрасывать newOrder через resetNewOrder', () => {

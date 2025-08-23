@@ -9,7 +9,7 @@ interface IIngredientsState {
   error: boolean;
 }
 
-const initialState: IIngredientsState = {
+export const initialState: IIngredientsState = {
   items: [],
   loading: false,
   error: false

@@ -1,14 +1,9 @@
-import { burgerConstructorSlice } from './burgerConstructorSlice';
+import { burgerConstructorSlice, initialState } from './burgerConstructorSlice';
 import { TIngredient } from '@utils-types';
 
 describe('[burgerConstructorSlice] тесты редьесеров!', () => {
   const reducer = burgerConstructorSlice.reducer;
   const { addIngredient, removeIngredient, reorderIngredient, resetConstructor } = burgerConstructorSlice.actions;
-
-  const initialState = {
-    bun: null,
-    ingredients: []
-  };
 
   const testBun: TIngredient = {
     _id: "1",

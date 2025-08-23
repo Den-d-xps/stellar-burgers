@@ -1,4 +1,4 @@
-import { userSlice } from './userSlice';
+import { userSlice, initialState } from './userSlice';
 import {
   registerUser,
   loginUser,
@@ -26,14 +26,6 @@ describe('[userSlice] тесты редьюсеров!', () => {
     createdAt: '2025-01-01',
     updatedAt: '2025-01-01',
     ingredients: ['1', '3', '5', '1']
-  };
-
-  const initialState = {
-    user: null,
-    orders: [],
-    loading: false,
-    error: false,
-    userCheck: false
   };
 
   it('Должен устанавливать userCheck = true', () => {

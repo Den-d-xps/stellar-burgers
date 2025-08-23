@@ -12,7 +12,7 @@ interface IOrdersState {
   error: boolean;
 }
 
-const initialState: IOrdersState = {
+export const initialState: IOrdersState = {
   orderData: {
     orders: [],
     total: 0,

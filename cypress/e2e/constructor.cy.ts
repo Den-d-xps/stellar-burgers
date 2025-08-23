@@ -10,45 +10,41 @@ describe('Тест страницы конструктора бургера', ()
     cy.intercept("GET", "**/api/ingredients", { fixture: "ingredients.json" });
 
     cy.viewport(1300, 800)
-    cy.visit("http://localhost:4000");
+    cy.visit("/");
+
+    cy.get('[data-cy="constructor-ingredients"]').as("constructorIngredients");
+    cy.get('[data-cy="bun-ingredient"]').as("bunIngredient");
+    cy.get('[data-cy="burger-constructor"]').as("constructor");
   });
+
 
   describe('Добавление ингредиентов в конструктор', () => {
     it("Добавление булки в конструктор", () => {
-      cy.get('[data-cy="bun-ingredient"]')
-        .contains(testBun)
-        .parent()  
-        .contains("Добавить")
-        .click();
+      cy.addBun(testBun);
 
-      cy.get('[data-cy="constructor-bun-top"]')
+      cy.get('[data-cy="constructor-bun-top"]').as("constructorBunTop");
+      cy.get('[data-cy="constructor-bun-bottom"]').as("constructorBunBottom");
+
+      cy.get('@constructorBunTop')
         .contains(testBun)
         .should('exist');
-      cy.get('[data-cy="constructor-bun-bottom"]')
+      cy.get('@constructorBunBottom')
         .contains(testBun)
         .should('exist');
     });
 
     it("Добавление начинки в конструктор", () => {
-      cy.get('[data-cy="main-ingredient"]')
-        .contains(testMain)
-        .parent()
-        .contains("Добавить")
-        .click();
+      cy.addMain(testMain);
 
-      cy.get('[data-cy="constructor-ingredients"]')
+      cy.get('@constructorIngredients')
         .contains(testMain)
         .should('exist');
     });
 
     it("Добавление соуса в конструктор", () => {
-      cy.get('[data-cy="sauce-ingredient"]')
-        .contains(testSauce)
-        .parent()
-        .contains("Добавить")
-        .click();
+      cy.addSauce(testSauce);
 
-      cy.get('[data-cy="constructor-ingredients"]')
+      cy.get('@constructorIngredients')
         .contains(testSauce)
         .should('exist');
     });
@@ -56,32 +52,35 @@ describe('Тест страницы конструктора бургера', ()
 
   describe('Проверка работы модальных окон', () => {
     it("Открытие и закрытие модального окна ингредиента (по крестику)", () => {
-      cy.get('[data-cy="bun-ingredient"]')
+      cy.get('@bunIngredient')
         .contains(testBun)
         .click();
 
-      cy.get('[data-cy="modal"]').contains(testBun).should('exist');
+      cy.get('[data-cy="modal"]').as("modal");
+
+      cy.get('@modal').contains(testBun).should('exist');
 
       cy.get('[data-cy="modal-close"]').click();
 
-      cy.get('[data-cy="modal"]').should("not.exist");
+      cy.get('@modal').should("not.exist");
     });
 
     it("Открытие и закрытие модального окна ингредиента (по оверлею)", () => {
-      cy.get('[data-cy="bun-ingredient"]')
+      cy.get('@bunIngredient')
         .contains(testBun)
         .click();
 
-      cy.get('[data-cy="modal"]').contains(testBun).should('exist');
+      cy.get('[data-cy="modal"]').as("modal");
+
+      cy.get('@modal').contains(testBun).should('exist');
 
       cy.get('[data-cy="modal-overlay"]').click('topLeft', { force: true });
 
-      cy.get('[data-cy="modal"]').should("not.exist");
+      cy.get('@modal').should("not.exist");
     });
   });
 
   describe('Проверка работы функции заказа', () => {
-
     beforeEach(() => {
       window.localStorage.setItem('refreshToken', 'testRefreshToken');
       cy.setCookie('accessToken', 'testAccessToken');
@@ -89,31 +88,20 @@ describe('Тест страницы конструктора бургера', ()
       cy.intercept("GET", "**/api/auth/user", { fixture: "user.json" });
       cy.intercept("GET", "**/api/orders/all", { fixture: "feeds.json" });
       cy.intercept("POST", "**/api/orders", { fixture: "order.json" }).as("createOrder");
-
-      
     });
 
     it("Создание заказа", () => {
 
       // Добавляем ингредиенты
-      cy.get('[data-cy="bun-ingredient"]')
-        .contains(testBun)
-        .parent()
-        .contains("Добавить")
-        .click();
-      cy.get('[data-cy="main-ingredient"]')
-        .contains(testMain)
-        .parent()
-        .contains("Добавить")
-        .click();
-      cy.get('[data-cy="sauce-ingredient"]')
-        .contains(testSauce)
-        .parent()
-        .contains("Добавить")
-        .click();
+      cy.addBun(testBun);
+      cy.addMain(testMain);
+      cy.addSauce(testSauce);
+
+      cy.get('[data-cy="constructor-bun-top"]').as("constructorBunTop");
+      cy.get('[data-cy="constructor-bun-bottom"]').as("constructorBunBottom");
 
       // Нажимаем "Оформить заказ"
-      cy.get('[data-cy="burger-constructor"]')
+      cy.get('@constructor')
         .contains("Оформить заказ")
         .click();
 
@@ -124,21 +112,22 @@ describe('Тест страницы конструктора бургера', ()
         });
 
       // Проверка модалки с номером заказа
-      cy.get('[data-cy="modal"]').contains("12345").should("exist");
+      cy.get('[data-cy="modal"]').as("modal");
+      cy.get('@modal').contains("12345").should("exist");
 
       // Закрытие модалки
       cy.get('[data-cy="modal-overlay"]').click('topLeft', { force: true });
-      cy.get('[data-cy="modal"]').should("not.exist");
+      cy.get('@modal').should("not.exist");
 
       // Проверка, что конструктор пуст
-      cy.get('[data-cy="burger-constructor"]').should("exist");
-      cy.get('[data-cy="constructor-bun-top"]')
+      cy.get('@constructor').should("exist");
+      cy.get('@constructorBunTop')
         .should("not.exist");
-      cy.get('[data-cy="constructor-ingredients"]')
+      cy.get('@constructorIngredients')
         .should("not.contain", testMain);
-      cy.get('[data-cy="constructor-ingredients"]')
+      cy.get('@constructorIngredients')
         .should("not.contain", testSauce);
-      cy.get('[data-cy="constructor-bun-bottom"]')
+      cy.get('@constructorBunBottom')
         .should("not.exist");
     });
   });

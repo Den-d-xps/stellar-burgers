@@ -18,7 +18,7 @@ interface IUserState {
   userCheck: boolean;
 }
 
-const initialState: IUserState = {
+export const initialState: IUserState = {
   user: null,
   orders: [],
   loading: false,
