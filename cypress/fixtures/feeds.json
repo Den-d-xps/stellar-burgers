@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "orders": [
+    {
+      "_id": "1",
+      "status": "done",
+      "name": "Тестовый бургер-1",
+      "createdAt": "2025-08-23T07:52:28.145Z",
+      "updatedAt": "2025-08-23T07:52:29.040Z",
+      "number": 11111,
+      "ingredients": [ "1", "2", "4", "1" ]
+    },
+    {
+      "_id": "2",
+      "status": "done",
+      "name": "Тестовый бургер-2",
+      "createdAt": "2025-08-23T07:52:28.145Z",
+      "updatedAt": "2025-08-23T07:52:29.040Z",
+      "number": 22222,
+      "ingredients": [ "2", "3", "5", "1" ]
+    }
+  ],
+  "total": 500,
+  "totalToday": 100
+}

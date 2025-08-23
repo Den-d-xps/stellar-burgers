@@ -106,7 +106,11 @@ export const userSlice = createSlice({
         state.error = false;
       })
       .addCase(logoutUser.fulfilled, (state) => {
-        state = initialState;
+        state.user = null;
+        state.orders = [];
+        state.loading = false;
+        state.error = false;
+        state.userCheck = false;
       })
       .addCase(logoutUser.rejected, (state) => {
         state.loading = false;
