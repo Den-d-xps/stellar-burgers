@@ -28,13 +28,17 @@ export const BurgerConstructor: FC = () => {
     const ingredientIds = constructorItems.ingredients.map(
       (item: TConstructorIngredient) => item._id
     );
+    const allIngredients = [
+      constructorItems.bun._id,
+      ...ingredientIds,
+      constructorItems.bun._id
+    ];
 
-    dispatch(addNewOrder(ingredientIds));
+    dispatch(addNewOrder(allIngredients));
   };
   const closeOrderModal = () => {
     dispatch(ordersActions.resetNewOrder());
     dispatch(burgerConstructorActions.resetConstructor());
-    navigate(-1);
   };
 
   const price = useMemo(
